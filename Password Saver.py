@@ -9,7 +9,6 @@ import PySimpleGUI as sg
 #   Change Main Password
 
 # TOCHANGE LINE:
-#   Send_INFO(SV[1],SV[0],SV[2],'Signup')
 #   user="rx.projectsmail@gmail.com",
 #   GetPassword()
 
@@ -39,9 +38,18 @@ def Backup_CPD(DB, popup=False):
 def Send_INFO(email,name,pas,msg='Backup'):
     import yagmail
     from datetime import datetime
+
+    #####
+    # WRITE YOUR OWN GMAIL INFO
+    #####
+    user=""
+    password=""
+    if not user or not password:
+        raise NotImplementedError('WRITE YOUR OWN GMAIL INFO IN "Send_INFO" FUNCTION')
+
     yag_smtp_connection = yagmail.SMTP(
-        user="rx.projectsmail@gmail.com",
-        password="FCTS1407",
+        user="",
+        password="",
         host='smtp.gmail.com')
     subject = '"Passafe" Password Saver Signup'
     contents =  [f'Hello {name}. Thanks For Using "Passafe".\n']
@@ -128,7 +136,7 @@ def Signup():
         else:
             sys.exit()
 
-    # Send_INFO(SV[1],SV[0],SV[2],'Signup')
+    Send_INFO(SV[1],SV[0],SV[2],'Signup')
     Enc_INFO=[]
     Enc_INFO.append([Decrypt(char,'4') for char in SV[0]])
     Enc_INFO.append([Decrypt(char,'4') for char in SV[1]])
@@ -242,7 +250,7 @@ def GetPassword():
         else:
             if not e=='__TIMEOUT__':
                 exit()
-#GetPassword()
+GetPassword()
 
 #< Passwords SaveAs Window >#
 def SaveAs():
@@ -374,7 +382,7 @@ Main_Col4= [[sg.Text(size=(1,9))],
 Main_Menu = [['&File', ["&Your INFO" , 'S&ave as', 'Email &Backup', '---', 
                         '!Repair Files', '!Remove extra files', '---', 'E&xit']],
              ['!Pro' , ['Go &Pro', 'Enter License &Key::Key']],
-             ['&Apps', ['Password &Validator','Password &Generator','!&Costomize']],
+             ['&Apps', ['Password &Validator','Password &Generator', '&CLI Version','!&Costomize']],
              ['&Help', ['&RX7','&Donate','&Contact Us','&About','&Help']]
              ]
 #] Layout
@@ -952,6 +960,10 @@ while True:
                     x=PAllF(PassLen)
                     window['PASSW'].Update(x)
         Main()'''
+   
+    elif Main_Event=='CLI Version':
+        os.system('start "" "Password Saver (CLI)"')
+
    #] 'Help' Menu
     elif Main_Event=='RX7':
         webbrowser.open_new_tab('http://rx7.ir/')

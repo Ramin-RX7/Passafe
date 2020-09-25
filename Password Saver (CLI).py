@@ -3,6 +3,12 @@ import rx7 as rx
 from rx7 import files,wait,write,cls,p
 import getpass
 
+import sys,getpass
+print('UNDER MAINTAINCE')
+getpass.getpass('Press Enter To Exit...')
+sys.exit()
+
+
 def Backup_CPD(DB):
     if files.exists('C:\\ProgramData\\WindowsPS\\PL'):
         files.remove('C:\\ProgramData\\WindowsPS\\PL')
@@ -22,31 +28,11 @@ def Backup_CPD(DB):
                 files.copy(DB,'C:\\ProgramData\\WindowsPS\\')   
 
 def Send_INFO(email,name,pas,msg='Backup'):
-    '''
-    import smtplib, ssl
-    port = 587
-    smtp_server = "smtp.gmail.com"
-    sender_email = "rx.projectsmail@gmail.com"
-    receiver_email = email
-    EmPa = 'FCTS1407'
-    if msg=='Signup':
-        message = """\
- Subject: RX Password Saver Signup
-
-            Hello {0}. Thanks For Using Our Password Saver App.\nYour Main Password is: {1}""".format(name,pas)
-    if msg=='Backup':
-        from datetime import datetime
-        message= 'Backup from {}.\nDate: {}'.format(name,str(datetime.today()))
-    context = ssl.create_default_context()
-    with smtplib.SMTP(smtp_server, port) as server:
-        server.ehlo()  # Can be omitted
-        server.starttls(context=context)
-        server.ehlo()  # Can be omitted
-        server.login(sender_email, EmPa)
-        server.sendmail(sender_email, receiver_email, message)
-    '''
     import yagmail
-    yag_smtp_connection = yagmail.SMTP( user="rx.projectsmail@gmail.com", password="FCTS1407", host='smtp.gmail.com')
+    #####
+    # WRITE YOUR OWN GMAIL AND PASSWORD HERE
+    #####
+    yag_smtp_connection = yagmail.SMTP( user="", password="", host='smtp.gmail.com')
     subject = 'RX Password Saver Signup'
     if msg=='Signup':
         contents = ["Hello {0}. Thanks For Using Our Password Saver App.\nYour Main Password is: {1}".format(name,pas)] #,'./PL'
@@ -100,7 +86,7 @@ def Signup():
                 for y in x:
                     n.append(str(ord(y)))
                 Enc_INFO.append(n)
-            write('PL','OFNI={}\nPL=[]'.format(Enc_INFO))
+            write('PL','InfoE={}\nPL=[]'.format(Enc_INFO))
             wait(0.15)
 
 
@@ -165,7 +151,7 @@ DB_C=False
 while DB_C==False:
     if files.exists('PL'):
         files.rename('PL','PL.py')
-        from PL import PL,OFNI
+        from PL import PL,InfoE
         files.rename('PL.py','PL')
         PLE=PL
         PLD=[]
@@ -198,7 +184,7 @@ while DB_C==False:
 def GP():
     Main_Pass= input('Type your main password: ')
     EP=[str(ord(char)) for char in Main_Pass]
-    if EP!=OFNI[2]:
+    if EP!=InfoE[2]:
         GP()
 #GP()
 
@@ -224,7 +210,7 @@ def SP(sort=True):
 #progressbar(100,30,0.005,' ','█','Recieving Data: ')
 wait(0.35)
 cls()
-print('Welcome {}!'.format(OFNI[0]))
+print('Welcome {}!'.format(InfoE[0]))
 while True:
     INP= input(' 1- Show Passwords\n 2- Add Password\n 3- Delete Password\n 4- Show By Category\n 5- Show By Date\n 6- Change Password\n99- Clear\n\n')
     if INP=='1':
@@ -266,7 +252,7 @@ while True:
             N_C=[encrypt_vig(char,'EJJSNWEW') for char in N_C]
             N_L=[N_N,N_U,N_P,N_C]
             PLE.append(N_L)
-            write('PL','OFNI={}\nPL={}'.format(OFNI,PLE))
+            write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
             p('Password Has Been Successfully Added to Database.')
             Backup_CPD('PL')
         else:
@@ -291,7 +277,7 @@ while True:
                 DEL=int(DEL)
                 PLE.remove(PLE[DEL])
                 PLD.remove(PLD[DEL])
-                write('PL','OFNI={}\nPL={}'.format(OFNI,PLE))
+                write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
                 p('Password Has Been Successfully Removed From Database.')
             except:
                 REMOVE()
@@ -360,7 +346,7 @@ while True:
                                     ind= PLD.index(item)
                         PLE[ind][2]=[ord(char) for char in NP]
 
-                        write('PL','OFNI={}\nPL={}'.format(OFNI,PLE))
+                        write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
                         print('Password Has Been Successfully Changed.')
             except:
                 print('Enter Only Number\n')
@@ -371,7 +357,7 @@ while True:
         if internet(quit=False):
             p('Sending Request...')
             wait(0.5)
-            Send_INFO(OFNI[1],OFNI[0],OFNI[2],'Backup')
+            Send_INFO(InfoE[1],InfoE[0],InfoE[2],'Backup')
 
 
 
