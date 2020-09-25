@@ -471,7 +471,7 @@ while True:
         ShowPass()
 
     elif Main_Event=='Add Password':  # ST if no passwords in database: STOP WORKING ERROR
-        def Add_Pass():
+        def Add_Pass(InfoE,PLE):
             layout=[
                     [sg.Text('NAME or URL:',size=(11,1)), sg.InputText(size=(35,2),text_color='Black',background_color='LightGrey',right_click_menu=MenuRI)],
                     [sg.Text('USERNAME:'   ,size=(11,1)), sg.InputText(size=(35,2),text_color='Black',background_color='LightGrey',right_click_menu=MenuRI)],
@@ -481,10 +481,9 @@ while True:
                     ]
 
             window = sg.Window('Add Password', layout)
-            x=True
-            while x:
+            while True:
                 event, values = window.read()
-
+                
                 if event=='SAVE':
                     if values[0] and values[1] and values[2]:
                         if values[3]=='':
@@ -493,14 +492,16 @@ while True:
                         N_N=values[0]
                         nom=1
                         if len(PLD):
-                            while True:
+                            XXX = True
+                            while XXX:
                                 for PASSWORD in PLD:
-                                    if N_N in PASSWORD:
+                                    if N_N == PASSWORD[0]:
                                         nom+=1
                                         N_N= f"{N_N} ({nom})"
                                         sg.PopupTimed(f"This Name Already Exists. We Changed it to {N_N}",auto_close_duration=5)
                                     else:
-                                        break
+                                        XXX=False
+                        print('OK')
                         N_U=values[1]
                         N_P=values[2]
                         N_C=values[3]
@@ -513,22 +514,22 @@ while True:
                         N_C=[Encrypt(char,'7') for char in N_C]
                         N_L=[N_N,N_U,N_P,N_C]
                         PLE.append(N_L)
-
+                        print('OK')
                         write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
                         sg.popup('Password Has Been Successfully Added to Database.')
-                        x=False
-                        Backup_CPD('PL')                     
+                        Backup_CPD('PL')
+                        break                     
                     else:
                         sg.popup('Please Fill All "NAME", "USERNAME" & "PASSWORD" Sections.')
                         window.close()
-                        Add_Pass()
+                        Add_Pass(InfoE,PLE)
                 if event in ('Delete','Cut','Copy','Paste','Select All'): 
                     RCE(event)
                 if event in ('Cancel',None,'None'):
                     window.Close()
-                    x=False
+                    break
  
-        Add_Pass()
+        Add_Pass(InfoE,PLE)
         
     elif Main_Event=='Remove Password':  # Delete
         def Remove_Pass():
