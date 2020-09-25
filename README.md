@@ -20,3 +20,19 @@
  + Auto Login
  + Open Web-Site in New Tab
  + Backup in .XLS .CSV .JSON Formats
+
+<br>
+
+## Installation
+```shell
+#Download/Clone Repository:
+git clone https://github.com/Ramin-RX7/Passafe.git
+#Go to Passafe Directory
+cd Passafe
+#Install Requirements Packages
+pip install requirements.txt
+#Run the App!
+python Passafe.py
+```
+
+<br>

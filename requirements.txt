@@ -1,3 +1,4 @@
 yagmail
 openpyxl
+rx7
 PySimpleGUI
