@@ -2,7 +2,7 @@
  ### GUI Password Saver in Python
  **Written in [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI "PySimpleGUI")**
  <br>
-[![Passafe](./Images/Main.png "Passafe")](./Images/ "More Images")
+[![Passafe](./Images/Main.png "More Images")](./Images/ "More Images")
 
 ### Features:
  + Name, Username, Password, Category 
