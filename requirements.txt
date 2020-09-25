@@ -1,0 +1,3 @@
+yagmail
+openpyxl
+PySimpleGUI
