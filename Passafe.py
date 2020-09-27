@@ -154,17 +154,30 @@ def XOR(word, key):
         word = (word[:i] + chr(ord(word[i]) ^ ord(key)) + word[i + 1:])
     return word
 def Decrypt(word,key):
+    '''
+    In this case we do not need these two functions
+    But I made it to make it easy for you if you want to
+     change Encryption type :)
+    '''
     return XOR(word,key)
 def Encrypt(word,key):
+    '''
+    In this case we do not need these two functions
+    But I made it to make it easy for you if you want to
+     change Encryption type :)
+    '''
     return XOR(word,key)
 
 #< Import DB >#
 def Load_DB():
     while True:
         if files.exists('PL'):
+
+            #] We can use read_lines() + eval()
             files.rename('PL','PL.py')
             from PL import PL,InfoE
             files.rename('PL.py','PL')
+            
             PLE=PL
             PLD=[]
             for PASSWORD in PLE:
@@ -224,8 +237,8 @@ def Load_DB():
                         elif NDbE in (None,'None'):
                             exit()
 PLE,PLD,InfoD,InfoE = Load_DB() 
-#] PLD:PasswordListDecrypted | PLE:PasswordListEncrypted
-#] InfoD:InfoDecrypted | InfoE:InfoEncrypted
+#] PLD   :  PasswordListDecrypted   |   PLE   :  PasswordListEncrypted
+#] InfoD :  InfoDecrypted           |   InfoE :  InfoEncrypted
 
 #< Get Password >#
 def GetPassword():
@@ -794,32 +807,33 @@ while True:
         YI_Layout= [[sg.T(f'NAME:{" "*15}'),sg.InputText(InfoD[0],size=(30,1))],
                     [sg.T(f'Email:{" "*16}'),sg.InputText(InfoD[1],size=(30,1))],
                     [sg.T(f'PASSWORD:{" "*5}'),
-                     sg.InputText('PASSWORD IS PROTECTED',font=('',10,'bold'),
-                                  size=(30,1),disabled=True,background_color='Grey',text_color='Black')],
+                     sg.InputText('********',font=('',10,'bold'),text_color='Black',
+                                  size=(30,1),disabled=True,background_color='Grey',
+                                  tooltip='PASSWORD IS PROTECTED',border_width=0)],
                     [sg.Exit(size=(4,1)),sg.Save(size=(4,1))]]
         YIwindow = sg.Window('Your Account Information', YI_Layout,keep_on_top=True,resizable=True)
         YIE,YIV= YIwindow.read()
         YIwindow.close()
-
+        
         if YIE=='Save':
             CH=False
             if YIV[0]!=InfoD[0]:
                 if len(YIV[0])!=0:
                     InfoD[0]=YIV[0]
-                    InfoE[0]=[ord(char) for char in YIV[0]]
+                    InfoE[0]=[Encrypt(char,'4') for char in YIV[0]]
                     CH=True
                 else:
                     sg.PopupTimed('Name Can Not Be Empty.',auto_close_duration=7)
             if YIV[1]!=InfoD[1]:
                 if len(YIV[1])!=0:
                     InfoD[1]=YIV[1]
-                    InfoE[1]=[ord(char) for char in YIV[1]]
+                    InfoE[1]=[Encrypt(char,'4') for char in YIV[1]]
                     CH=True
                 else:
                     sg.PopupTimed('Email Can Not Be Empty.',auto_close_duration=7)
             if CH:
                 write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
-                sg.PopupTimed('Your Information Have Been Changed.')
+                sg.PopupTimed('Your Information Has Been Updated.',auto_close_duration=7)
 
     elif Main_Event=='Save as':
         SaveAs()
