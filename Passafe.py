@@ -48,8 +48,8 @@ def Send_INFO(email,name,pas,msg='Backup'):
         raise NotImplementedError('WRITE YOUR OWN GMAIL INFO IN "Send_INFO" FUNCTION')
 
     yag_smtp_connection = yagmail.SMTP(
-        user="",
-        password="",
+        user=user,
+        password=password,
         host='smtp.gmail.com')
     subject = '"Passafe" Password Saver Signup'
     contents =  [f'Hello {name}. Thanks For Using "Passafe".\n']
@@ -143,7 +143,7 @@ def Signup():
     hashed = hashlib.sha3_256(bytes(SV[2],encoding='utf-8')).hexdigest()
     Enc_INFO.append([char for char in hashed])
 
-    write('PL',f"InfoE={str(Enc_INFO)}\nPL=[]")
+    write('PL',f"OFNI={str(Enc_INFO)}\nPL=[]")
     ProgressBar(50,'Creating Account')
     ProgressBar(50,'Creating Database')
     Swindow.close()
@@ -172,12 +172,10 @@ def Encrypt(word,key):
 def Load_DB():
     while True:
         if files.exists('PL'):
-
-            #] We can use read_lines() + eval()
             files.rename('PL','PL.py')
-            from PL import PL,InfoE
+            #] We can use read_lines() + eval()
+            from PL import PL,OFNI
             files.rename('PL.py','PL')
-            
             PLE=PL
             PLD=[]
             for PASSWORD in PLE:
@@ -190,12 +188,12 @@ def Load_DB():
                 PLD.append(NEW)
             
             InfoD=[]
-            for info in InfoE[:2]:
+            for info in OFNI[:2]:
                 NEW = ''.join([Decrypt(char,'4') for char in info])
                 InfoD.append(NEW)
-            InfoD.append(''.join(InfoE[2]))
+            InfoD.append(''.join(OFNI[2]))
             #break
-            return PLE,PLD,InfoD,InfoE
+            return PLE,PLD,InfoD,OFNI
 
         else:
             #p('Error 404.1')
@@ -236,9 +234,9 @@ def Load_DB():
                             NdbL.close()
                         elif NDbE in (None,'None'):
                             exit()
-PLE,PLD,InfoD,InfoE = Load_DB() 
-#] PLD   :  PasswordListDecrypted   |   PLE   :  PasswordListEncrypted
-#] InfoD :  InfoDecrypted           |   InfoE :  InfoEncrypted
+PLE,PLD,InfoD,OFNI = Load_DB() 
+#] PLD:PasswordListDecrypted | PLE:PasswordListEncrypted
+#] InfoD:InfoDecrypted | OFNI:OFNIncrypted
 
 #< Get Password >#
 def GetPassword():
@@ -492,7 +490,7 @@ while True:
         ShowPass()
 
     elif Main_Event=='Add Password':  # ST if no passwords in database: STOP WORKING ERROR
-        def Add_Pass(InfoE,PLE):
+        def Add_Pass(OFNI,PLE):
             layout=[
                     [sg.Text('NAME or URL:',size=(11,1)), sg.InputText(size=(35,2),text_color='Black',background_color='LightGrey',right_click_menu=MenuRI)],
                     [sg.Text('USERNAME:'   ,size=(11,1)), sg.InputText(size=(35,2),text_color='Black',background_color='LightGrey',right_click_menu=MenuRI)],
@@ -536,21 +534,21 @@ while True:
                         N_L=[N_N,N_U,N_P,N_C]
                         PLE.append(N_L)
                         print('OK')
-                        write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
+                        write('PL','OFNI={}\nPL={}'.format(OFNI,PLE))
                         sg.popup('Password Has Been Successfully Added to Database.')
                         Backup_CPD('PL')
                         break                     
                     else:
                         sg.popup('Please Fill All "NAME", "USERNAME" & "PASSWORD" Sections.')
                         window.close()
-                        Add_Pass(InfoE,PLE)
+                        Add_Pass(OFNI,PLE)
                 if event in ('Delete','Cut','Copy','Paste','Select All'): 
                     RCE(event)
                 if event in ('Cancel',None,'None'):
                     window.Close()
                     break
  
-        Add_Pass(InfoE,PLE)
+        Add_Pass(OFNI,PLE)
         
     elif Main_Event=='Remove Password':  # Delete
         def Remove_Pass():
@@ -596,7 +594,7 @@ while True:
                             PaLi.remove(PASSWORD)
                             PLD.remove(PLD[ind])
                             PLE.remove(PLE[ind])
-                            write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
+                            write('PL','OFNI={}\nPL={}'.format(OFNI,PLE))
                             sg.PopupTimed('Password Has Been Successfully Removed From Database.',keep_on_top=True,auto_close_duration=7)
                             Backup_CPD('PL')
                         window.close()
@@ -765,7 +763,7 @@ while True:
                                             Changed= values2[i]
                                             Changed= [ord(char) for char in Changed]
                                             PLE[IndPas][i]=Changed
-                                            write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
+                                            write('PL','OFNI={}\nPL={}'.format(OFNI,PLE))
                                             Backup_CPD('PL') 
                                 if Change==True:
                                     sg.PopupTimed('Saved!',keep_on_top=True,auto_close_duration=3,no_titlebar=True,font=(10,11))
@@ -820,19 +818,19 @@ while True:
             if YIV[0]!=InfoD[0]:
                 if len(YIV[0])!=0:
                     InfoD[0]=YIV[0]
-                    InfoE[0]=[Encrypt(char,'4') for char in YIV[0]]
+                    OFNI[0]=[Encrypt(char,'4') for char in YIV[0]]
                     CH=True
                 else:
                     sg.PopupTimed('Name Can Not Be Empty.',auto_close_duration=7)
             if YIV[1]!=InfoD[1]:
                 if len(YIV[1])!=0:
                     InfoD[1]=YIV[1]
-                    InfoE[1]=[Encrypt(char,'4') for char in YIV[1]]
+                    OFNI[1]=[Encrypt(char,'4') for char in YIV[1]]
                     CH=True
                 else:
                     sg.PopupTimed('Email Can Not Be Empty.',auto_close_duration=7)
             if CH:
-                write('PL','InfoE={}\nPL={}'.format(InfoE,PLE))
+                write('PL','OFNI={}\nPL={}'.format(OFNI,PLE))
                 sg.PopupTimed('Your Information Has Been Updated.',auto_close_duration=7)
 
     elif Main_Event=='Save as':
@@ -842,7 +840,7 @@ while True:
         if internet():
             sg.PopupTimed('Sending Request...',auto_close_duration=1)
             try:
-                Send_INFO(InfoE[1],InfoE[0],InfoE[2],'Backup')
+                Send_INFO(OFNI[1],OFNI[0],OFNI[2],'Backup')
             except:
                 sg.Popup('Failed to Send Email.\nTry Again Later.')
         else:
