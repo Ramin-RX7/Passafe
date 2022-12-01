@@ -1,3 +1,8 @@
+# MyFiles
+Passafe.db
+tst.py
+PS.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -123,6 +128,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# MyFiles
-PL

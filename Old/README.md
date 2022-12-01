@@ -1,15 +1,6 @@
 # Passafe
-
-#### Notice:
-> ### I am currently rebuilding Passafe from scratch. Old version can still be found in [`Old`](https://github.com/Ramin-RX7/Passafe/tree/master/Old "`Old`") directory.
-> > #### My main focus on this project is neater code and better UI
-
-<hr />
-<hr />
-
-(Old version ReadMe.md) : 
  ### GUI Password Saver in Python
-[![Passafe](./Old/Images/Main.png "Passafe")](./Old/Images/Main.png "Passafe")
+[![Passafe](./Images/Main.png "Passafe")](./Images/Main.png "Passafe")
 [More Images](./Images "More Images")
 
 [//]: <> (<br>**Written in [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI "PySimpleGUI")**<br>)
