@@ -2,6 +2,7 @@
 Passafe.db
 tst.py
 PS.db
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
